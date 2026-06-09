@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="color-scheme" content="dark">
+<title>2026 World Cup Watch Planner (PT)</title>
+<style>
+  :root {
+    --bg: #0f1115; --surface: #1a1d24; --border: #2a2f3a;
+    --text: #e8eaed; --muted: #9aa0a6; --accent: #4c8bf5;
+    --fox: #003366; --fs1: #555; --warn: #c9a227;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text); margin: 0;
+    padding: calc(16px + var(--safe-top)) calc(16px + var(--safe-right)) calc(24px + var(--safe-bottom)) calc(16px + var(--safe-left));
+    line-height: 1.45; max-width: 900px; margin-inline: auto;
+  }
+  h1 { font-size: clamp(1.25rem, 4vw, 1.6rem); margin: 0 0 8px; line-height: 1.2; }
+  h2 { font-size: 1.05rem; margin: 24px 0 12px; }
+  .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .banner { background: #1e2a3a; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 0.88rem; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+  @media (min-width: 520px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+  .stat .label { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat .value { font-size: 1.35rem; font-weight: 600; margin-top: 4px; }
+  .filters { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 14px; }
+  @media (min-width: 600px) { .filters { grid-template-columns: repeat(3, 1fr) auto; align-items: end; } }
+  label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; color: var(--muted); }
+  select { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 12px 10px; font-size: 16px; width: 100%; }
+  .count-note { color: var(--muted); font-size: 0.85rem; padding: 4px 0; }
+  details.day { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  summary { cursor: pointer; padding: 14px; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 48px; }
+  summary::-webkit-details-marker { display: none; }
+  .day-label::before { content: '▸ '; color: var(--muted); }
+  details[open] .day-label::before { content: '▾ '; }
+  .badge { font-size: 0.72rem; font-weight: 600; padding: 4px 8px; border-radius: 999px; background: #2a2f3a; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+  .badge.warn { background: #3d3418; color: var(--warn); }
+  .cards { padding: 0 12px 12px; display: grid; gap: 10px; }
+  .match { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+  .match.overlap { border-left: 3px solid var(--warn); }
+  .match.usa { border-color: #2a4a7a; background: rgba(76,139,245,0.06); }
+  .match-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .kickoff { font-weight: 700; font-size: 0.95rem; }
+  .matchup { font-size: 1rem; margin: 0 0 4px; font-weight: 600; line-height: 1.3; }
+  .detail, .stream { color: var(--muted); font-size: 0.82rem; margin: 0 0 4px; }
+  .plan { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 0.88rem; min-height: 44px; }
+  .plan input { width: 22px; height: 22px; flex-shrink: 0; }
+  .net { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; color: #fff; }
+  .net.fox { background: var(--fox); }
+  .net.fs1 { background: var(--fs1); }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 0 0 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 560px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; }
+  tr.overlap td:first-child { border-left: 3px solid var(--warn); }
+  tr.usa td { background: rgba(76,139,245,0.08); }
+  .hidden { display: none !important; }
+  .mobile-only { display: block; }
+  .desktop-only { display: none; }
+  @media (min-width: 768px) {
+    .mobile-only { display: none; }
+    .desktop-only { display: block; }
+    .hide-mobile { display: table-cell; }
+  }
+  @media (max-width: 767px) { .hide-mobile { display: none; } }
+</style>
+</head>
+<body>
+<h1>2026 FIFA World Cup Watch Planner</h1>
+<p class="sub">All kickoffs Pacific Time (PT). Fox One streams every match.</p>
+<div class="banner">Fox + FS1 via Fox One ($19.99/mo). Free on Tubi: Mexico vs South Africa (Jun 11) and USA vs Paraguay (Jun 12).</div>
+<div class="stats">
+  <div class="stat"><div class="label">Matches</div><div class="value">103</div></div>
+  <div class="stat"><div class="label">On Fox</div><div class="value">71</div></div>
+  <div class="stat"><div class="label">On FS1</div><div class="value">32</div></div>
+  <div class="stat"><div class="label">Overlap slots</div><div class="value">13</div></div>
+</div>
+<h2>USA group stage</h2>
+<div class="cards mobile-only"><article class="match usa"><div class="match-top"><time class="kickoff">Fri, Jun 12 · 6:00 PM</time></div><h3 class="matchup">USA vs Paraguay</h3><p class="stream">Fox · FOX One · Tubi</p></article>
+<article class="match usa"><div class="match-top"><time class="kickoff">Fri, Jun 19 · 12:00 PM</time></div><h3 class="matchup">USA vs Australia</h3><p class="stream">Fox · FOX One</p></article>
+<article class="match usa"><div class="match-top"><time class="kickoff">Thu, Jun 25 · 7:00 PM</time></div><h3 class="matchup">USA vs Türkiye</h3><p class="stream">Fox · FOX One</p></article></div>
+<div class="table-wrap desktop-only"><table><thead><tr><th>Date</th><th>Kickoff</th><th>Match</th><th>Watch</th></tr></thead><tbody><tr class="usa"><td>Fri, Jun 12</td><td>6:00 PM</td><td><strong>USA vs Paraguay</strong></td><td>Fox · FOX One · Tubi</td></tr>
+<tr class="usa"><td>Fri, Jun 19</td><td>12:00 PM</td><td><strong>USA vs Australia</strong></td><td>Fox · FOX One</td></tr>
+<tr class="usa"><td>Thu, Jun 25</td><td>7:00 PM</td><td><strong>USA vs Türkiye</strong></td><td>Fox · FOX One</td></tr></tbody></table></div>
+<h2>Full schedule</h2>
+<div class="filters">
+  <label>Phase<select id="f-phase"><option value="all">All phases</option><option value="Group">Group stage</option><option value="Ro32">Round of 32</option><option value="Ro16">Round of 16</option><option value="QF">Quarterfinals</option><option value="SF">Semifinals</option><option value="Final">Final</option></select></label>
+  <label>Network<select id="f-network"><option value="all">All networks</option><option value="FOX">Fox</option><option value="FS1">FS1</option></select></label>
+  <label>Show<select id="f-show"><option value="all">All matches</option><option value="usa">USA only</option><option value="overlap">Overlapping kickoffs</option></select></label>
+  <div class="count-note" id="count-note">103 of 103 matches</div>
+</div>
+<div id="schedule"><details class="day" data-date="2026-06-11">
+    <summary><span class="day-label">Thu, Jun 11</span><span class="badge">2 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g01" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Mexico vs South Africa</h3>
+    <p class="detail">Group A · Group</p>
+    <p class="stream">Fox · FOX One · Tubi</p>
+    <label class="plan"><input type="checkbox" data-id="g01" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g02" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">7:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">South Korea vs Czechia</h3>
+    <p class="detail">Group A · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g02" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g01" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Mexico vs South Africa</strong><div class="detail">Group A</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One · Tubi</div></td>
+    <td><input type="checkbox" data-id="g01" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g02" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>7:00 PM</td>
+    <td><strong>South Korea vs Czechia</strong><div class="detail">Group A</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g02" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-12" open>
+    <summary><span class="day-label">Fri, Jun 12</span><span class="badge">2 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g03" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Canada vs Bosnia and Herzegovina</h3>
+    <p class="detail">Group B · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g03" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match usa" data-id="g04" data-phase="Group" data-network="FOX" data-usa="true" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">USA vs Paraguay</h3>
+    <p class="detail">Group D · Group</p>
+    <p class="stream">Fox · FOX One · Tubi</p>
+    <label class="plan"><input type="checkbox" data-id="g04" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g03" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Canada vs Bosnia and Herzegovina</strong><div class="detail">Group B</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g03" aria-label="Mark planned"></td>
+  </tr>
+<tr class="usa" data-id="g04" data-phase="Group" data-network="FOX" data-usa="true" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>USA vs Paraguay</strong><div class="detail">Group D</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One · Tubi</div></td>
+    <td><input type="checkbox" data-id="g04" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-13">
+    <summary><span class="day-label">Sat, Jun 13</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g05" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Qatar vs Switzerland</h3>
+    <p class="detail">Group B · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g05" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g06" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">3:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Brazil vs Morocco</h3>
+    <p class="detail">Group C · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g06" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g07" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Haiti vs Scotland</h3>
+    <p class="detail">Group C · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g07" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g08" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">9:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Australia vs Türkiye</h3>
+    <p class="detail">Group D · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g08" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g05" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Qatar vs Switzerland</strong><div class="detail">Group B</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g05" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g06" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>3:00 PM</td>
+    <td><strong>Brazil vs Morocco</strong><div class="detail">Group C</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g06" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g07" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>Haiti vs Scotland</strong><div class="detail">Group C</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g07" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g08" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>9:00 PM</td>
+    <td><strong>Australia vs Türkiye</strong><div class="detail">Group D</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g08" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-14">
+    <summary><span class="day-label">Sun, Jun 14</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g09" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">10:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Germany vs Curaçao</h3>
+    <p class="detail">Group E · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g09" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g10" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Netherlands vs Japan</h3>
+    <p class="detail">Group F · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g10" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g11" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">4:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Ivory Coast vs Ecuador</h3>
+    <p class="detail">Group E · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g11" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g12" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">7:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Tunisia vs Sweden</h3>
+    <p class="detail">Group F · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g12" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g09" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>10:00 AM</td>
+    <td><strong>Germany vs Curaçao</strong><div class="detail">Group E</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g09" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g10" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>1:00 PM</td>
+    <td><strong>Netherlands vs Japan</strong><div class="detail">Group F</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g10" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g11" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>4:00 PM</td>
+    <td><strong>Ivory Coast vs Ecuador</strong><div class="detail">Group E</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g11" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g12" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>7:00 PM</td>
+    <td><strong>Tunisia vs Sweden</strong><div class="detail">Group F</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g12" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-15">
+    <summary><span class="day-label">Mon, Jun 15</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g13" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">9:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Spain vs Cape Verde</h3>
+    <p class="detail">Group H · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g13" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g14" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Belgium vs Egypt</h3>
+    <p class="detail">Group G · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g14" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g15" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">3:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Saudi Arabia vs Uruguay</h3>
+    <p class="detail">Group H · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g15" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g16" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Iran vs New Zealand</h3>
+    <p class="detail">Group G · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g16" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g13" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>9:00 AM</td>
+    <td><strong>Spain vs Cape Verde</strong><div class="detail">Group H</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g13" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g14" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Belgium vs Egypt</strong><div class="detail">Group G</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g14" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g15" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>3:00 PM</td>
+    <td><strong>Saudi Arabia vs Uruguay</strong><div class="detail">Group H</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g15" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g16" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>Iran vs New Zealand</strong><div class="detail">Group G</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g16" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-16">
+    <summary><span class="day-label">Tue, Jun 16</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g17" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">France vs Senegal</h3>
+    <p class="detail">Group I · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g17" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g18" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">3:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Iraq vs Norway</h3>
+    <p class="detail">Group I · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g18" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g19" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Argentina vs Algeria</h3>
+    <p class="detail">Group J · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g19" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g20" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">9:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Austria vs Jordan</h3>
+    <p class="detail">Group J · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g20" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g17" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>France vs Senegal</strong><div class="detail">Group I</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g17" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g18" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>3:00 PM</td>
+    <td><strong>Iraq vs Norway</strong><div class="detail">Group I</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g18" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g19" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>Argentina vs Algeria</strong><div class="detail">Group J</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g19" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g20" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>9:00 PM</td>
+    <td><strong>Austria vs Jordan</strong><div class="detail">Group J</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g20" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-17">
+    <summary><span class="day-label">Wed, Jun 17</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g21" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">10:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Portugal vs Congo DR</h3>
+    <p class="detail">Group K · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g21" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g22" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">England vs Croatia</h3>
+    <p class="detail">Group L · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g22" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g23" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">4:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Ghana vs Panama</h3>
+    <p class="detail">Group L · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g23" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g24" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">7:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Uzbekistan vs Colombia</h3>
+    <p class="detail">Group K · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g24" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g21" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>10:00 AM</td>
+    <td><strong>Portugal vs Congo DR</strong><div class="detail">Group K</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g21" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g22" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>1:00 PM</td>
+    <td><strong>England vs Croatia</strong><div class="detail">Group L</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g22" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g23" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>4:00 PM</td>
+    <td><strong>Ghana vs Panama</strong><div class="detail">Group L</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g23" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g24" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>7:00 PM</td>
+    <td><strong>Uzbekistan vs Colombia</strong><div class="detail">Group K</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g24" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-18">
+    <summary><span class="day-label">Thu, Jun 18</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g25" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">9:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Czechia vs South Africa</h3>
+    <p class="detail">Group A · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g25" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g26" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Switzerland vs Bosnia and Herzegovina</h3>
+    <p class="detail">Group B · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g26" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g27" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">3:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Canada vs Qatar</h3>
+    <p class="detail">Group B · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g27" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g28" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Mexico vs South Korea</h3>
+    <p class="detail">Group A · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g28" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g25" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>9:00 AM</td>
+    <td><strong>Czechia vs South Africa</strong><div class="detail">Group A</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g25" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g26" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Switzerland vs Bosnia and Herzegovina</strong><div class="detail">Group B</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g26" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g27" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>3:00 PM</td>
+    <td><strong>Canada vs Qatar</strong><div class="detail">Group B</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g27" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g28" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>Mexico vs South Korea</strong><div class="detail">Group A</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g28" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-19" open>
+    <summary><span class="day-label">Fri, Jun 19</span><span class="badge warn">1 simultaneous</span></summary>
+    <div class="cards mobile-only"><article class="match overlap usa" data-id="g29" data-phase="Group" data-network="FOX" data-usa="true" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">USA vs Australia</h3>
+    <p class="detail">Group D · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g29" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g30" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Scotland vs Morocco</h3>
+    <p class="detail">Group C · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g30" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g31" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Brazil vs Haiti</h3>
+    <p class="detail">Group C · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g31" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g32" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">9:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Türkiye vs Paraguay</h3>
+    <p class="detail">Group D · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g32" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="overlap usa" data-id="g29" data-phase="Group" data-network="FOX" data-usa="true" data-overlap="true">
+    <td>12:00 PM</td>
+    <td><strong>USA vs Australia</strong><div class="detail">Group D</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g29" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g30" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>12:00 PM</td>
+    <td><strong>Scotland vs Morocco</strong><div class="detail">Group C</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g30" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g31" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>Brazil vs Haiti</strong><div class="detail">Group C</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g31" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g32" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>9:00 PM</td>
+    <td><strong>Türkiye vs Paraguay</strong><div class="detail">Group D</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g32" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-20">
+    <summary><span class="day-label">Sat, Jun 20</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g33" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">10:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Netherlands vs Sweden</h3>
+    <p class="detail">Group F · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g33" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g34" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Germany vs Ivory Coast</h3>
+    <p class="detail">Group E · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g34" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g35" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">5:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Ecuador vs Curaçao</h3>
+    <p class="detail">Group E · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g35" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g36" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">9:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Tunisia vs Japan</h3>
+    <p class="detail">Group F · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g36" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g33" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>10:00 AM</td>
+    <td><strong>Netherlands vs Sweden</strong><div class="detail">Group F</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g33" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g34" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>1:00 PM</td>
+    <td><strong>Germany vs Ivory Coast</strong><div class="detail">Group E</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g34" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g35" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>5:00 PM</td>
+    <td><strong>Ecuador vs Curaçao</strong><div class="detail">Group E</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g35" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g36" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>9:00 PM</td>
+    <td><strong>Tunisia vs Japan</strong><div class="detail">Group F</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g36" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-21">
+    <summary><span class="day-label">Sun, Jun 21</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g37" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">9:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Spain vs Saudi Arabia</h3>
+    <p class="detail">Group H · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g37" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g38" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Belgium vs Iran</h3>
+    <p class="detail">Group G · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g38" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g39" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">3:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Uruguay vs Cape Verde</h3>
+    <p class="detail">Group H · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g39" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g40" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">New Zealand vs Egypt</h3>
+    <p class="detail">Group G · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g40" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g37" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>9:00 AM</td>
+    <td><strong>Spain vs Saudi Arabia</strong><div class="detail">Group H</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g37" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g38" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Belgium vs Iran</strong><div class="detail">Group G</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g38" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g39" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>3:00 PM</td>
+    <td><strong>Uruguay vs Cape Verde</strong><div class="detail">Group H</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g39" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g40" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>New Zealand vs Egypt</strong><div class="detail">Group G</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g40" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-22">
+    <summary><span class="day-label">Mon, Jun 22</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g41" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">10:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Argentina vs Austria</h3>
+    <p class="detail">Group J · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g41" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g42" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">2:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">France vs Iraq</h3>
+    <p class="detail">Group I · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g42" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g43" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">5:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Norway vs Senegal</h3>
+    <p class="detail">Group I · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g43" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g44" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">8:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Jordan vs Algeria</h3>
+    <p class="detail">Group J · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g44" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g41" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>10:00 AM</td>
+    <td><strong>Argentina vs Austria</strong><div class="detail">Group J</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g41" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g42" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>2:00 PM</td>
+    <td><strong>France vs Iraq</strong><div class="detail">Group I</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g42" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g43" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>5:00 PM</td>
+    <td><strong>Norway vs Senegal</strong><div class="detail">Group I</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g43" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g44" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>8:00 PM</td>
+    <td><strong>Jordan vs Algeria</strong><div class="detail">Group J</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g44" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-23">
+    <summary><span class="day-label">Tue, Jun 23</span><span class="badge">4 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="g45" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">10:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Portugal vs Uzbekistan</h3>
+    <p class="detail">Group K · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g45" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g46" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">England vs Ghana</h3>
+    <p class="detail">Group L · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g46" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g47" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">4:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Panama vs Croatia</h3>
+    <p class="detail">Group L · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g47" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="g48" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">7:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Colombia vs Congo DR</h3>
+    <p class="detail">Group K · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g48" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="g45" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>10:00 AM</td>
+    <td><strong>Portugal vs Uzbekistan</strong><div class="detail">Group K</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g45" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g46" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>1:00 PM</td>
+    <td><strong>England vs Ghana</strong><div class="detail">Group L</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g46" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g47" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>4:00 PM</td>
+    <td><strong>Panama vs Croatia</strong><div class="detail">Group L</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g47" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="g48" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>7:00 PM</td>
+    <td><strong>Colombia vs Congo DR</strong><div class="detail">Group K</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g48" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-24" open>
+    <summary><span class="day-label">Wed, Jun 24</span><span class="badge warn">3 simultaneous</span></summary>
+    <div class="cards mobile-only"><article class="match overlap" data-id="g49" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Switzerland vs Canada</h3>
+    <p class="detail">Group B · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g49" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g50" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Bosnia and Herzegovina vs Qatar</h3>
+    <p class="detail">Group B · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g50" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g51" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">3:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Brazil vs Scotland</h3>
+    <p class="detail">Group C · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g51" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g52" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">3:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Morocco vs Haiti</h3>
+    <p class="detail">Group C · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g52" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g53" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Mexico vs Czechia</h3>
+    <p class="detail">Group A · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g53" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g54" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">South Korea vs South Africa</h3>
+    <p class="detail">Group A · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g54" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="overlap" data-id="g49" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>12:00 PM</td>
+    <td><strong>Switzerland vs Canada</strong><div class="detail">Group B</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g49" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g50" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>12:00 PM</td>
+    <td><strong>Bosnia and Herzegovina vs Qatar</strong><div class="detail">Group B</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g50" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g51" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>3:00 PM</td>
+    <td><strong>Brazil vs Scotland</strong><div class="detail">Group C</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g51" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g52" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>3:00 PM</td>
+    <td><strong>Morocco vs Haiti</strong><div class="detail">Group C</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g52" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g53" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>6:00 PM</td>
+    <td><strong>Mexico vs Czechia</strong><div class="detail">Group A</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g53" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g54" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>6:00 PM</td>
+    <td><strong>South Korea vs South Africa</strong><div class="detail">Group A</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g54" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-25" open>
+    <summary><span class="day-label">Thu, Jun 25</span><span class="badge warn">3 simultaneous</span></summary>
+    <div class="cards mobile-only"><article class="match overlap" data-id="g55" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Ecuador vs Germany</h3>
+    <p class="detail">Group E · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g55" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g56" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Curaçao vs Ivory Coast</h3>
+    <p class="detail">Group E · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g56" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g57" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">4:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Tunisia vs Netherlands</h3>
+    <p class="detail">Group F · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g57" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g58" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">4:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Japan vs Sweden</h3>
+    <p class="detail">Group F · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g58" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap usa" data-id="g59" data-phase="Group" data-network="FOX" data-usa="true" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">7:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">USA vs Türkiye</h3>
+    <p class="detail">Group D · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g59" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g60" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">7:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Paraguay vs Australia</h3>
+    <p class="detail">Group D · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g60" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="overlap" data-id="g55" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>1:00 PM</td>
+    <td><strong>Ecuador vs Germany</strong><div class="detail">Group E</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g55" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g56" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>1:00 PM</td>
+    <td><strong>Curaçao vs Ivory Coast</strong><div class="detail">Group E</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g56" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g57" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>4:00 PM</td>
+    <td><strong>Tunisia vs Netherlands</strong><div class="detail">Group F</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g57" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g58" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>4:00 PM</td>
+    <td><strong>Japan vs Sweden</strong><div class="detail">Group F</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g58" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap usa" data-id="g59" data-phase="Group" data-network="FOX" data-usa="true" data-overlap="true">
+    <td>7:00 PM</td>
+    <td><strong>USA vs Türkiye</strong><div class="detail">Group D</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g59" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g60" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>7:00 PM</td>
+    <td><strong>Paraguay vs Australia</strong><div class="detail">Group D</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g60" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-26" open>
+    <summary><span class="day-label">Fri, Jun 26</span><span class="badge warn">3 simultaneous</span></summary>
+    <div class="cards mobile-only"><article class="match overlap" data-id="g61" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Norway vs France</h3>
+    <p class="detail">Group I · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g61" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g62" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Senegal vs Iraq</h3>
+    <p class="detail">Group I · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g62" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g63" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">5:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Uruguay vs Spain</h3>
+    <p class="detail">Group H · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g63" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g64" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">5:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Cape Verde vs Saudi Arabia</h3>
+    <p class="detail">Group H · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g64" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g65" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">8:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">New Zealand vs Belgium</h3>
+    <p class="detail">Group G · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g65" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g66" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">8:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Egypt vs Iran</h3>
+    <p class="detail">Group G · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g66" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="overlap" data-id="g61" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>12:00 PM</td>
+    <td><strong>Norway vs France</strong><div class="detail">Group I</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g61" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g62" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>12:00 PM</td>
+    <td><strong>Senegal vs Iraq</strong><div class="detail">Group I</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g62" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g63" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>5:00 PM</td>
+    <td><strong>Uruguay vs Spain</strong><div class="detail">Group H</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g63" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g64" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>5:00 PM</td>
+    <td><strong>Cape Verde vs Saudi Arabia</strong><div class="detail">Group H</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g64" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g65" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>8:00 PM</td>
+    <td><strong>New Zealand vs Belgium</strong><div class="detail">Group G</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g65" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g66" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>8:00 PM</td>
+    <td><strong>Egypt vs Iran</strong><div class="detail">Group G</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g66" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-27" open>
+    <summary><span class="day-label">Sat, Jun 27</span><span class="badge warn">3 simultaneous</span></summary>
+    <div class="cards mobile-only"><article class="match overlap" data-id="g67" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">2:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Panama vs England</h3>
+    <p class="detail">Group L · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g67" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g68" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">2:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Croatia vs Ghana</h3>
+    <p class="detail">Group L · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g68" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g69" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">4:30 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Colombia vs Portugal</h3>
+    <p class="detail">Group K · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g69" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g70" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">4:30 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Congo DR vs Uzbekistan</h3>
+    <p class="detail">Group K · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g70" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g71" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">7:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Argentina vs Jordan</h3>
+    <p class="detail">Group J · Group</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g71" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match overlap" data-id="g72" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <div class="match-top">
+      <time class="kickoff">7:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Algeria vs Austria</h3>
+    <p class="detail">Group J · Group</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="g72" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="overlap" data-id="g67" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>2:00 PM</td>
+    <td><strong>Panama vs England</strong><div class="detail">Group L</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g67" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g68" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>2:00 PM</td>
+    <td><strong>Croatia vs Ghana</strong><div class="detail">Group L</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g68" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g69" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>4:30 PM</td>
+    <td><strong>Colombia vs Portugal</strong><div class="detail">Group K</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g69" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g70" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>4:30 PM</td>
+    <td><strong>Congo DR vs Uzbekistan</strong><div class="detail">Group K</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g70" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g71" data-phase="Group" data-network="FOX" data-usa="false" data-overlap="true">
+    <td>7:00 PM</td>
+    <td><strong>Argentina vs Jordan</strong><div class="detail">Group J</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="g71" aria-label="Mark planned"></td>
+  </tr>
+<tr class="overlap" data-id="g72" data-phase="Group" data-network="FS1" data-usa="false" data-overlap="true">
+    <td>7:00 PM</td>
+    <td><strong>Algeria vs Austria</strong><div class="detail">Group J</div></td>
+    <td class="hide-mobile">Group</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="g72" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-28">
+    <summary><span class="day-label">Sun, Jun 28</span><span class="badge">1 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k01" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Los Angeles</h3>
+    <p class="detail">Group A 2nd vs Group B 2nd · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k01" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k01" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Round of 32 — Los Angeles</strong><div class="detail">Group A 2nd vs Group B 2nd</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k01" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-29">
+    <summary><span class="day-label">Mon, Jun 29</span><span class="badge">3 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k02" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">10:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Houston</h3>
+    <p class="detail">Group C winner vs Group F 2nd · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k02" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k03" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">1:30 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Boston</h3>
+    <p class="detail">Group E winner vs 3rd place · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k03" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k04" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Monterrey</h3>
+    <p class="detail">Group F winner vs Group C 2nd · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k04" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k02" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>10:00 AM</td>
+    <td><strong>Round of 32 — Houston</strong><div class="detail">Group C winner vs Group F 2nd</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k02" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k03" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>1:30 PM</td>
+    <td><strong>Round of 32 — Boston</strong><div class="detail">Group E winner vs 3rd place</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k03" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k04" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>Round of 32 — Monterrey</strong><div class="detail">Group F winner vs Group C 2nd</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k04" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-06-30">
+    <summary><span class="day-label">Tue, Jun 30</span><span class="badge">3 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k05" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">10:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Dallas</h3>
+    <p class="detail">Group E 2nd vs Group I 2nd · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k05" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k06" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">2:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — MetLife</h3>
+    <p class="detail">Group I winner vs 3rd place · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k06" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k07" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Mexico City</h3>
+    <p class="detail">Group A winner vs 3rd place · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k07" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k05" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>10:00 AM</td>
+    <td><strong>Round of 32 — Dallas</strong><div class="detail">Group E 2nd vs Group I 2nd</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k05" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k06" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>2:00 PM</td>
+    <td><strong>Round of 32 — MetLife</strong><div class="detail">Group I winner vs 3rd place</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k06" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k07" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>Round of 32 — Mexico City</strong><div class="detail">Group A winner vs 3rd place</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k07" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-01">
+    <summary><span class="day-label">Wed, Jul 1</span><span class="badge">3 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k08" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">9:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Atlanta</h3>
+    <p class="detail">Group L winner vs 3rd place · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k08" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k09" data-phase="Ro32" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Seattle</h3>
+    <p class="detail">Group G winner vs 3rd place · Ro32</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k09" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k10" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">5:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — San Francisco</h3>
+    <p class="detail">Group D winner vs 3rd place · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k10" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k08" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>9:00 AM</td>
+    <td><strong>Round of 32 — Atlanta</strong><div class="detail">Group L winner vs 3rd place</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k08" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k09" data-phase="Ro32" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>1:00 PM</td>
+    <td><strong>Round of 32 — Seattle</strong><div class="detail">Group G winner vs 3rd place</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="k09" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k10" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>5:00 PM</td>
+    <td><strong>Round of 32 — San Francisco</strong><div class="detail">Group D winner vs 3rd place</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k10" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-02">
+    <summary><span class="day-label">Thu, Jul 2</span><span class="badge">3 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k11" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Los Angeles</h3>
+    <p class="detail">Group H winner vs Group J 2nd · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k11" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k12" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">4:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Toronto</h3>
+    <p class="detail">Group K 2nd vs Group L 2nd · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k12" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k13" data-phase="Ro32" data-network="FS1" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">8:00 PM</time>
+      <span class="net fs1">FS1</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Vancouver</h3>
+    <p class="detail">Group B winner vs 3rd place · Ro32</p>
+    <p class="stream">FS1 · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k13" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k11" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Round of 32 — Los Angeles</strong><div class="detail">Group H winner vs Group J 2nd</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k11" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k12" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>4:00 PM</td>
+    <td><strong>Round of 32 — Toronto</strong><div class="detail">Group K 2nd vs Group L 2nd</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k12" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k13" data-phase="Ro32" data-network="FS1" data-usa="false" data-overlap="false">
+    <td>8:00 PM</td>
+    <td><strong>Round of 32 — Vancouver</strong><div class="detail">Group B winner vs 3rd place</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fs1">FS1</span><div class="stream">FS1 · FOX One</div></td>
+    <td><input type="checkbox" data-id="k13" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-03">
+    <summary><span class="day-label">Fri, Jul 3</span><span class="badge">3 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k14" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">11:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Dallas</h3>
+    <p class="detail">Group D 2nd vs Group G 2nd · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k14" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k15" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">3:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Miami</h3>
+    <p class="detail">Group J winner vs Group H 2nd · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k15" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k16" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:30 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 32 — Kansas City</h3>
+    <p class="detail">Group K winner vs 3rd place · Ro32</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k16" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k14" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>11:00 AM</td>
+    <td><strong>Round of 32 — Dallas</strong><div class="detail">Group D 2nd vs Group G 2nd</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k14" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k15" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>3:00 PM</td>
+    <td><strong>Round of 32 — Miami</strong><div class="detail">Group J winner vs Group H 2nd</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k15" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k16" data-phase="Ro32" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>6:30 PM</td>
+    <td><strong>Round of 32 — Kansas City</strong><div class="detail">Group K winner vs 3rd place</div></td>
+    <td class="hide-mobile">Ro32</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k16" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-04">
+    <summary><span class="day-label">Sat, Jul 4</span><span class="badge">2 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k17" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">10:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 16 — Houston</h3>
+    <p class="detail">TBD vs TBD · Ro16</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k17" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k18" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">2:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 16 — Philadelphia</h3>
+    <p class="detail">TBD vs TBD · Ro16</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k18" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k17" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>10:00 AM</td>
+    <td><strong>Round of 16 — Houston</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">Ro16</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k17" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k18" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>2:00 PM</td>
+    <td><strong>Round of 16 — Philadelphia</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">Ro16</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k18" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-05">
+    <summary><span class="day-label">Sun, Jul 5</span><span class="badge">2 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k19" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 16 — MetLife</h3>
+    <p class="detail">TBD vs TBD · Ro16</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k19" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k20" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">5:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 16 — Mexico City</h3>
+    <p class="detail">TBD vs TBD · Ro16</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k20" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k19" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>1:00 PM</td>
+    <td><strong>Round of 16 — MetLife</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">Ro16</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k19" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k20" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>5:00 PM</td>
+    <td><strong>Round of 16 — Mexico City</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">Ro16</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k20" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-06">
+    <summary><span class="day-label">Mon, Jul 6</span><span class="badge">2 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k21" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 16 — Dallas</h3>
+    <p class="detail">TBD vs TBD · Ro16</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k21" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k22" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">5:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 16 — Seattle</h3>
+    <p class="detail">TBD vs TBD · Ro16</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k22" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k21" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Round of 16 — Dallas</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">Ro16</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k21" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k22" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>5:00 PM</td>
+    <td><strong>Round of 16 — Seattle</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">Ro16</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k22" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-07">
+    <summary><span class="day-label">Tue, Jul 7</span><span class="badge">2 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k23" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">9:00 AM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 16 — Atlanta</h3>
+    <p class="detail">TBD vs TBD · Ro16</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k23" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k24" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Round of 16 — Vancouver</h3>
+    <p class="detail">TBD vs TBD · Ro16</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k24" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k23" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>9:00 AM</td>
+    <td><strong>Round of 16 — Atlanta</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">Ro16</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k23" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k24" data-phase="Ro16" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>1:00 PM</td>
+    <td><strong>Round of 16 — Vancouver</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">Ro16</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k24" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-09">
+    <summary><span class="day-label">Thu, Jul 9</span><span class="badge">1 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k25" data-phase="QF" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">1:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Quarterfinal — Boston</h3>
+    <p class="detail">TBD vs TBD · QF</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k25" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k25" data-phase="QF" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>1:00 PM</td>
+    <td><strong>Quarterfinal — Boston</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">QF</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k25" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-10">
+    <summary><span class="day-label">Fri, Jul 10</span><span class="badge">1 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k26" data-phase="QF" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Quarterfinal — Los Angeles</h3>
+    <p class="detail">TBD vs TBD · QF</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k26" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k26" data-phase="QF" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Quarterfinal — Los Angeles</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">QF</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k26" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-11">
+    <summary><span class="day-label">Sat, Jul 11</span><span class="badge">2 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k27" data-phase="QF" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">2:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Quarterfinal — Miami</h3>
+    <p class="detail">TBD vs TBD · QF</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k27" aria-label="Mark planned"> Planned</label>
+  </article>
+<article class="match" data-id="k28" data-phase="QF" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">6:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Quarterfinal — Kansas City</h3>
+    <p class="detail">TBD vs TBD · QF</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k28" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k27" data-phase="QF" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>2:00 PM</td>
+    <td><strong>Quarterfinal — Miami</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">QF</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k27" aria-label="Mark planned"></td>
+  </tr>
+<tr class="" data-id="k28" data-phase="QF" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>6:00 PM</td>
+    <td><strong>Quarterfinal — Kansas City</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">QF</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k28" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-14">
+    <summary><span class="day-label">Tue, Jul 14</span><span class="badge">1 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k29" data-phase="SF" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Semifinal — Dallas</h3>
+    <p class="detail">TBD vs TBD · SF</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k29" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k29" data-phase="SF" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Semifinal — Dallas</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">SF</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k29" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-15">
+    <summary><span class="day-label">Wed, Jul 15</span><span class="badge">1 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k30" data-phase="SF" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">Semifinal — Atlanta</h3>
+    <p class="detail">TBD vs TBD · SF</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k30" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k30" data-phase="SF" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>Semifinal — Atlanta</strong><div class="detail">TBD vs TBD</div></td>
+    <td class="hide-mobile">SF</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k30" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details>
+<details class="day" data-date="2026-07-19">
+    <summary><span class="day-label">Sun, Jul 19</span><span class="badge">1 matches</span></summary>
+    <div class="cards mobile-only"><article class="match" data-id="k31" data-phase="Final" data-network="FOX" data-usa="false" data-overlap="false">
+    <div class="match-top">
+      <time class="kickoff">12:00 PM</time>
+      <span class="net fox">Fox</span>
+    </div>
+    <h3 class="matchup">World Cup Final</h3>
+    <p class="detail">MetLife Stadium, East Rutherford · Final</p>
+    <p class="stream">Fox · FOX One</p>
+    <label class="plan"><input type="checkbox" data-id="k31" aria-label="Mark planned"> Planned</label>
+  </article></div>
+    <div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Plan</th></tr></thead><tbody><tr class="" data-id="k31" data-phase="Final" data-network="FOX" data-usa="false" data-overlap="false">
+    <td>12:00 PM</td>
+    <td><strong>World Cup Final</strong><div class="detail">MetLife Stadium, East Rutherford</div></td>
+    <td class="hide-mobile">Final</td>
+    <td><span class="net fox">Fox</span><div class="stream">Fox · FOX One</div></td>
+    <td><input type="checkbox" data-id="k31" aria-label="Mark planned"></td>
+  </tr></tbody></table></div>
+  </details></div>
+<script>
+(function() {
+  'use strict';
+  var plannedKey = 'wc2026-planned-v2';
+  function getPlanned() {
+    try { return JSON.parse(localStorage.getItem(plannedKey) || '[]'); } catch (e) { return []; }
+  }
+  function savePlanned(arr) {
+    try { localStorage.setItem(plannedKey, JSON.stringify(arr)); } catch (e) {}
+  }
+  function applyPlanned() {
+    var planned = getPlanned();
+    var boxes = document.querySelectorAll('input[type=checkbox][data-id]');
+    for (var i = 0; i < boxes.length; i++) {
+      boxes[i].checked = planned.indexOf(boxes[i].getAttribute('data-id')) !== -1;
+    }
+  }
+  function bindCheckboxes() {
+    document.addEventListener('change', function(e) {
+      if (!e.target || e.target.type !== 'checkbox' || !e.target.getAttribute('data-id')) return;
+      var id = e.target.getAttribute('data-id');
+      var planned = getPlanned();
+      var idx = planned.indexOf(id);
+      if (e.target.checked && idx === -1) planned.push(id);
+      else if (!e.target.checked && idx !== -1) planned.splice(idx, 1);
+      savePlanned(planned);
+    });
+  }
+  function matchesFilter(el, phase, network, show) {
+    var p = el.getAttribute('data-phase');
+    var n = el.getAttribute('data-network');
+    var usa = el.getAttribute('data-usa') === 'true';
+    var overlap = el.getAttribute('data-overlap') === 'true';
+    if (phase !== 'all' && p !== phase) return false;
+    if (network !== 'all' && n !== network) return false;
+    if (show === 'usa' && !usa) return false;
+    if (show === 'overlap' && !overlap) return false;
+    return true;
+  }
+  function applyFilters() {
+    var phase = document.getElementById('f-phase').value;
+    var network = document.getElementById('f-network').value;
+    var show = document.getElementById('f-show').value;
+    var visible = 0;
+    var days = document.querySelectorAll('details.day');
+    for (var d = 0; d < days.length; d++) {
+      var dayVisible = 0;
+      var items = days[d].querySelectorAll('[data-id]');
+      for (var i = 0; i < items.length; i++) {
+        var ok = matchesFilter(items[i], phase, network, show);
+        items[i].classList.toggle('hidden', !ok);
+        if (ok) dayVisible++;
+      }
+      days[d].classList.toggle('hidden', dayVisible === 0);
+      visible += dayVisible;
+    }
+    document.getElementById('count-note').textContent = visible + ' of 103 matches';
+  }
+  function init() {
+    applyPlanned();
+    bindCheckboxes();
+    var selects = ['f-phase', 'f-network', 'f-show'];
+    for (var i = 0; i < selects.length; i++) {
+      document.getElementById(selects[i]).addEventListener('change', applyFilters);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
