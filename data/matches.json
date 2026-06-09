@@ -1533,6 +1533,21 @@
       "awayTeam": null
     },
     {
+      "id": "k32",
+      "ptDate": "2026-07-18",
+      "ptTime": "2:00 PM",
+      "matchup": "Third Place Match — Miami",
+      "detail": "Hard Rock Stadium · Semifinal losers",
+      "phase": "3P",
+      "network": "FOX",
+      "tubi": false,
+      "usa": false,
+      "utcKickoff": "2026-07-18T21:00:00Z",
+      "autoUpdate": true,
+      "homeTeam": null,
+      "awayTeam": null
+    },
+    {
       "id": "k31",
       "ptDate": "2026-07-19",
       "ptTime": "12:00 PM",

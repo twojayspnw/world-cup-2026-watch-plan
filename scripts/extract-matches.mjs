@@ -22,7 +22,7 @@ const end = src.indexOf("];", start) + 2;
 let MATCHES;
 eval(src.slice(start, end).replace("const MATCHES: Match[]", "MATCHES"));
 
-const KNOCKOUT = new Set(["Ro32", "Ro16", "QF", "SF", "Final"]);
+const KNOCKOUT = new Set(["Ro32", "Ro16", "QF", "SF", "3P", "Final"]);
 
 const matches = MATCHES.map((m) => ({
   ...m,
@@ -31,6 +31,39 @@ const matches = MATCHES.map((m) => ({
   homeTeam: null,
   awayTeam: null,
 }));
+
+/** FOX schedule page omits this; ESPN/FIFA include it as match 104. */
+const SUPPLEMENTAL = [
+  {
+    id: "k32",
+    ptDate: "2026-07-18",
+    ptTime: "2:00 PM",
+    matchup: "Third Place Match — Miami",
+    detail: "Hard Rock Stadium · Semifinal losers",
+    phase: "3P",
+    network: "FOX",
+    tubi: false,
+    usa: false,
+  },
+];
+
+for (const extra of SUPPLEMENTAL) {
+  if (!matches.some((m) => m.id === extra.id)) {
+    matches.push({
+      ...extra,
+      utcKickoff: ptToUtcIso(extra.ptDate, extra.ptTime),
+      autoUpdate: true,
+      homeTeam: null,
+      awayTeam: null,
+    });
+  }
+}
+
+matches.sort((a, b) =>
+  a.ptDate === b.ptDate
+    ? a.ptTime.localeCompare(b.ptTime, undefined, { numeric: true })
+    : a.ptDate.localeCompare(b.ptDate),
+);
 
 const out = {
   version: 1,

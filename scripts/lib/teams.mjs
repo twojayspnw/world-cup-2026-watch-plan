@@ -34,6 +34,7 @@ export function isPlaceholder(name) {
     /\btbd\b/.test(n) ||
     /^round of \d+/.test(n) ||
     /^semifinal \d/.test(n) ||
+    /\bloser\b/.test(n) ||
     /^quarterfinal/.test(n) ||
     /^group [a-l] (winner|2nd)/.test(n)
   );

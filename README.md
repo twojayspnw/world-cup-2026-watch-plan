@@ -10,7 +10,7 @@ Knockout round matchups (`Round of 32` through the `Final`) start as placeholder
 
 | Piece | Role |
 |-------|------|
-| `data/matches.json` | Source of truth for all 103 matches |
+| `data/matches.json` | Source of truth for all 104 matches |
 | `scripts/update-from-espn.mjs` | Pulls ESPN's public scoreboard API and updates knockout `matchup` fields |
 | `scripts/build.mjs` | Regenerates `index.html` |
 | `.github/workflows/update-bracket.yml` | Runs every 3 hours during June–July, or on demand |

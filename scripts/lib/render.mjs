@@ -423,7 +423,7 @@ ${updatedLine}
 <div class="table-wrap desktop-only"><table><thead><tr><th>Date</th><th>Kickoff</th><th>Match</th><th>Watch</th><th>Calendar</th></tr></thead><tbody>${usaRows}</tbody></table></div>
 <h2>Full schedule</h2>
 <div class="filters">
-  <label>Phase<select id="f-phase"><option value="all">All phases</option><option value="Group">Group stage</option><option value="Ro32">Round of 32</option><option value="Ro16">Round of 16</option><option value="QF">Quarterfinals</option><option value="SF">Semifinals</option><option value="Final">Final</option></select></label>
+  <label>Phase<select id="f-phase"><option value="all">All phases</option><option value="Group">Group stage</option><option value="Ro32">Round of 32</option><option value="Ro16">Round of 16</option><option value="QF">Quarterfinals</option><option value="SF">Semifinals</option><option value="3P">Third place</option><option value="Final">Final</option></select></label>
   <label>Network<select id="f-network"><option value="all">All networks</option><option value="FOX">Fox</option><option value="FS1">FS1</option></select></label>
   <label>Show<select id="f-show"><option value="all">All matches</option><option value="usa">USA only</option><option value="overlap">Overlapping kickoffs</option></select></label>
   <div class="count-note" id="count-note">${matches.length} of ${matches.length} matches</div>
