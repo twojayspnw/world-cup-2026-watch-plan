@@ -65,7 +65,35 @@ export function pairsMatch(home, away, match) {
 export function displayTeam(espnName) {
   if (espnName === "United States") return "USA";
   if (espnName === "Bosnia-Herzegovina") return "Bosnia and Herzegovina";
-  if (espnName === "Côte d'Ivoire" || espnName === "Cote d'Ivoire") return "Ivory Coast";
+  if (espnName === "Côte d'Ivoire" || espnName === "Cote d'Ivoire")
+    return "Ivory Coast";
   if (espnName === "Korea Republic") return "South Korea";
   return espnName;
+}
+
+const KNOCKOUT_TITLE =
+  /round of|semifinal|quarterfinal|third place|world cup final/i;
+
+/** Teams playing in this match (empty for TBD knockout slots). */
+export function getMatchTeams(match) {
+  if (match.homeTeam && match.awayTeam) {
+    return [match.homeTeam, match.awayTeam];
+  }
+  const parts = teamsFromMatchup(match.matchup);
+  if (parts.length === 2 && !KNOCKOUT_TITLE.test(parts[0])) {
+    return parts;
+  }
+  return [];
+}
+
+export function collectAllTeams(matches) {
+  const set = new Set();
+  for (const m of matches) {
+    for (const t of getMatchTeams(m)) set.add(t);
+  }
+  return [...set].sort((a, b) => a.localeCompare(b));
+}
+
+export function teamsDataAttr(teams) {
+  return teams.map((t) => normalizeTeam(t)).join("|");
 }

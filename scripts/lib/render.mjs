@@ -1,4 +1,9 @@
 import { parseMinutes, formatDate } from "./time.mjs";
+import {
+  collectAllTeams,
+  getMatchTeams,
+  teamsDataAttr,
+} from "./teams.mjs";
 
 function addMinutes(dt, add) {
   const total = dt.h * 60 + dt.min + add;
@@ -105,6 +110,7 @@ export function overlapIds(matches) {
 }
 
 export function matchCard(m, overlap) {
+  const teams = getMatchTeams(m);
   const classes = [
     "match",
     overlap.has(m.id) ? "overlap" : "",
@@ -126,6 +132,8 @@ export function matchCard(m, overlap) {
     m.usa +
     '" data-overlap="' +
     overlap.has(m.id) +
+    '" data-teams="' +
+    esc(teamsDataAttr(teams)) +
     '">' +
     '<div class="match-top"><time class="kickoff">' +
     esc(m.ptTime) +
@@ -151,6 +159,7 @@ export function matchCard(m, overlap) {
 }
 
 export function matchRow(m, overlap) {
+  const teams = getMatchTeams(m);
   const cls = [overlap.has(m.id) ? "overlap" : "", m.usa ? "usa" : ""]
     .filter(Boolean)
     .join(" ");
@@ -168,6 +177,8 @@ export function matchRow(m, overlap) {
     m.usa +
     '" data-overlap="' +
     overlap.has(m.id) +
+    '" data-teams="' +
+    esc(teamsDataAttr(teams)) +
     '">' +
     "<td>" +
     esc(m.ptTime) +
@@ -267,12 +278,15 @@ const FILTER_JS = `(function() {
   function matchesFilter(el, phase, network, show) {
     var p = el.getAttribute('data-phase');
     var n = el.getAttribute('data-network');
-    var usa = el.getAttribute('data-usa') === 'true';
     var overlap = el.getAttribute('data-overlap') === 'true';
     if (phase !== 'all' && p !== phase) return false;
     if (network !== 'all' && n !== network) return false;
-    if (show === 'usa' && !usa) return false;
     if (show === 'overlap' && !overlap) return false;
+    if (show.indexOf('team:') === 0) {
+      var want = show.slice(5);
+      var teams = (el.getAttribute('data-teams') || '').split('|');
+      if (teams.indexOf(want) === -1) return false;
+    }
     return true;
   }
   function applyFilters() {
@@ -395,6 +409,18 @@ export function buildHtml(matches, meta = {}) {
 
   const js = FILTER_JS.replace("MATCH_COUNT", String(matches.length));
 
+  const allTeams = collectAllTeams(matches);
+  const teamOptions = allTeams
+    .map(
+      (t) =>
+        '<option value="team:' +
+        esc(teamsDataAttr([t])) +
+        '">' +
+        esc(t) +
+        "</option>",
+    )
+    .join("\n");
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -425,7 +451,7 @@ ${updatedLine}
 <div class="filters">
   <label>Phase<select id="f-phase"><option value="all">All phases</option><option value="Group">Group stage</option><option value="Ro32">Round of 32</option><option value="Ro16">Round of 16</option><option value="QF">Quarterfinals</option><option value="SF">Semifinals</option><option value="3P">Third place</option><option value="Final">Final</option></select></label>
   <label>Network<select id="f-network"><option value="all">All networks</option><option value="FOX">Fox</option><option value="FS1">FS1</option></select></label>
-  <label>Show<select id="f-show"><option value="all">All matches</option><option value="usa">USA only</option><option value="overlap">Overlapping kickoffs</option></select></label>
+  <label>Show<select id="f-show"><option value="all">All matches</option><option value="overlap">Overlapping kickoffs</option>${teamOptions}</select></label>
   <div class="count-note" id="count-note">${matches.length} of ${matches.length} matches</div>
 </div>
 <div id="schedule">${daySections}</div>
