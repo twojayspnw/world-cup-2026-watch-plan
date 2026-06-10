@@ -1,9 +1,15 @@
-import { parseMinutes, formatDate } from "./time.mjs";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { utcMinuteKey } from "./time.mjs";
 import {
   collectAllTeams,
   getMatchTeams,
   teamsDataAttr,
 } from "./teams.mjs";
+import { TZ_OPTIONS } from "./tz-options.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function addMinutes(dt, add) {
   const total = dt.h * 60 + dt.min + add;
@@ -228,7 +234,9 @@ const CSS = `  :root {
   .stat .label { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
   .stat .value { font-size: 1.35rem; font-weight: 600; margin-top: 4px; }
   .filters { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 14px; }
-  @media (min-width: 600px) { .filters { grid-template-columns: repeat(3, 1fr) auto; align-items: end; } }
+  @media (min-width: 640px) { .filters { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 960px) { .filters { grid-template-columns: repeat(4, 1fr) auto; align-items: end; } }
+  #tz-note { color: var(--muted); font-size: 0.85rem; margin: -8px 0 16px; }
   label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; color: var(--muted); }
   select { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 12px 10px; font-size: 16px; width: 100%; }
   .count-note { color: var(--muted); font-size: 0.85rem; padding: 4px 0; }
@@ -273,129 +281,33 @@ const CSS = `  :root {
   }
   @media (max-width: 767px) { .hide-mobile { display: none; } }`;
 
-const FILTER_JS = `(function() {
-  'use strict';
-  function matchesFilter(el, phase, network, show) {
-    var p = el.getAttribute('data-phase');
-    var n = el.getAttribute('data-network');
-    var overlap = el.getAttribute('data-overlap') === 'true';
-    if (phase !== 'all' && p !== phase) return false;
-    if (network !== 'all' && n !== network) return false;
-    if (show === 'overlap' && !overlap) return false;
-    if (show.indexOf('team:') === 0) {
-      var want = show.slice(5);
-      var teams = (el.getAttribute('data-teams') || '').split('|');
-      if (teams.indexOf(want) === -1) return false;
-    }
-    return true;
-  }
-  function applyFilters() {
-    var phase = document.getElementById('f-phase').value;
-    var network = document.getElementById('f-network').value;
-    var show = document.getElementById('f-show').value;
-    var visible = 0;
-    var days = document.querySelectorAll('details.day');
-    for (var d = 0; d < days.length; d++) {
-      var dayVisible = 0;
-      var items = days[d].querySelectorAll('[data-id]');
-      for (var i = 0; i < items.length; i++) {
-        var ok = matchesFilter(items[i], phase, network, show);
-        items[i].classList.toggle('hidden', !ok);
-        if (ok) dayVisible++;
-      }
-      days[d].classList.toggle('hidden', dayVisible === 0);
-      visible += dayVisible;
-    }
-    document.getElementById('count-note').textContent = visible + ' of MATCH_COUNT matches';
-  }
-  function init() {
-    ['f-phase','f-network','f-show'].forEach(function(id) {
-      document.getElementById(id).addEventListener('change', applyFilters);
-    });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-})();`;
+function buildClientScript(matches, overlap) {
+  const data = matches.map((m) => ({
+    id: m.id,
+    utcKickoff: m.utcKickoff,
+    matchup: m.matchup,
+    detail: m.detail,
+    phase: m.phase,
+    network: m.network,
+    tubi: m.tubi,
+    usa: m.usa,
+    teams: teamsDataAttr(getMatchTeams(m)),
+  }));
+  const appPath = path.join(__dirname, "..", "schedule.app.js");
+  return fs
+    .readFileSync(appPath, "utf8")
+    .replace("__MATCH_DATA__", JSON.stringify(data))
+    .replace("__OVERLAP_IDS__", JSON.stringify([...overlap]));
+}
 
 export function buildHtml(matches, meta = {}) {
   const overlap = overlapIds(matches);
   const overlapSlots = new Set(
     [...overlap].map((id) => {
       const m = matches.find((x) => x.id === id);
-      return m.ptDate + "|" + m.ptTime;
+      return utcMinuteKey(m.utcKickoff);
     }),
   ).size;
-
-  const byDate = new Map();
-  for (const m of matches) {
-    if (!byDate.has(m.ptDate)) byDate.set(m.ptDate, []);
-    byDate.get(m.ptDate).push(m);
-  }
-  for (const list of byDate.values()) {
-    list.sort((a, b) => parseMinutes(a.ptTime) - parseMinutes(b.ptTime));
-  }
-
-  const daySections = [...byDate.keys()]
-    .sort()
-    .map((date) => {
-      const day = byDate.get(date);
-      const overlaps = day.filter((m) => overlap.has(m.id)).length;
-      const open = day.some((m) => m.usa || overlap.has(m.id)) ? " open" : "";
-      const badge =
-        overlaps > 0
-          ? '<span class="badge warn">' + overlaps / 2 + " simultaneous</span>"
-          : '<span class="badge">' + day.length + " matches</span>";
-      return (
-        '<details class="day" data-date="' +
-        date +
-        '"' +
-        open +
-        "><summary><span class=\"day-label\">" +
-        formatDate(date) +
-        "</span>" +
-        badge +
-        '</summary><div class="cards mobile-only">' +
-        day.map((m) => matchCard(m, overlap)).join("\n") +
-        '</div><div class="table-wrap desktop-only"><table><thead><tr><th>Kickoff</th><th>Match</th><th class="hide-mobile">Round</th><th>Watch</th><th>Calendar</th></tr></thead><tbody>' +
-        day.map((m) => matchRow(m, overlap)).join("\n") +
-        "</tbody></table></div></details>"
-      );
-    })
-    .join("\n");
-
-  const usa = matches.filter((m) => m.usa);
-  const usaCards = usa
-    .map(
-      (m) =>
-        '<article class="match usa"><div class="match-top"><time class="kickoff">' +
-        formatDate(m.ptDate) +
-        " · " +
-        esc(m.ptTime) +
-        '</time></div><h3 class="matchup">' +
-        esc(m.matchup) +
-        '</h3><p class="stream">' +
-        esc(streamLabel(m)) +
-        "</p>" +
-        calendarButton(m) +
-        "</article>",
-    )
-    .join("\n");
-  const usaRows = usa
-    .map(
-      (m) =>
-        '<tr class="usa"><td>' +
-        formatDate(m.ptDate) +
-        "</td><td>" +
-        esc(m.ptTime) +
-        "</td><td><strong>" +
-        esc(m.matchup) +
-        "</strong></td><td>" +
-        esc(streamLabel(m)) +
-        "</td><td>" +
-        calendarButton(m) +
-        "</td></tr>",
-    )
-    .join("\n");
 
   const updatedLine = meta.lastUpdated
     ? '<p class="updated">Knockout teams last synced ' +
@@ -406,8 +318,6 @@ export function buildHtml(matches, meta = {}) {
       }) +
       " PT · auto-updates from ESPN</p>"
     : "";
-
-  const js = FILTER_JS.replace("MATCH_COUNT", String(matches.length));
 
   const allTeams = collectAllTeams(matches);
   const teamOptions = allTeams
@@ -421,6 +331,13 @@ export function buildHtml(matches, meta = {}) {
     )
     .join("\n");
 
+  const tzOptions = TZ_OPTIONS.map(
+    (o) =>
+      '<option value="' + esc(o.value) + '">' + esc(o.label) + "</option>",
+  ).join("\n");
+
+  const clientJs = buildClientScript(matches, overlap);
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -428,14 +345,15 @@ export function buildHtml(matches, meta = {}) {
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="color-scheme" content="dark">
-<title>2026 World Cup Watch Planner (PT)</title>
+<title>2026 World Cup Watch Planner</title>
 <style>
 ${CSS}
 </style>
 </head>
 <body>
 <h1>2026 FIFA World Cup Watch Planner</h1>
-<p class="sub">All kickoffs Pacific Time (PT). Tap Add to calendar for a 2-hour event.</p>
+<p class="sub">Choose your timezone below. Tap Add to calendar for a 2-hour event in that zone.</p>
+<p id="tz-note" class="sub">Loading times…</p>
 ${updatedLine}
 <div class="banner">Fox + FS1 via Fox One ($19.99/mo). Free on Tubi: Mexico vs South Africa (Jun 11) and USA vs Paraguay (Jun 12).</div>
 <div class="stats">
@@ -445,17 +363,18 @@ ${updatedLine}
   <div class="stat"><div class="label">Overlap slots</div><div class="value">${overlapSlots}</div></div>
 </div>
 <h2>USA group stage</h2>
-<div class="cards mobile-only">${usaCards}</div>
-<div class="table-wrap desktop-only"><table><thead><tr><th>Date</th><th>Kickoff</th><th>Match</th><th>Watch</th><th>Calendar</th></tr></thead><tbody>${usaRows}</tbody></table></div>
+<div id="usa-mobile" class="cards mobile-only"></div>
+<div class="table-wrap desktop-only"><table><thead><tr><th>Date</th><th>Kickoff</th><th>Match</th><th>Watch</th><th>Calendar</th></tr></thead><tbody id="usa-desktop"></tbody></table></div>
 <h2>Full schedule</h2>
 <div class="filters">
+  <label>Timezone<select id="f-tz">${tzOptions}</select></label>
   <label>Phase<select id="f-phase"><option value="all">All phases</option><option value="Group">Group stage</option><option value="Ro32">Round of 32</option><option value="Ro16">Round of 16</option><option value="QF">Quarterfinals</option><option value="SF">Semifinals</option><option value="3P">Third place</option><option value="Final">Final</option></select></label>
   <label>Network<select id="f-network"><option value="all">All networks</option><option value="FOX">Fox</option><option value="FS1">FS1</option></select></label>
   <label>Show<select id="f-show"><option value="all">All matches</option><option value="overlap">Overlapping kickoffs</option>${teamOptions}</select></label>
   <div class="count-note" id="count-note">${matches.length} of ${matches.length} matches</div>
 </div>
-<div id="schedule">${daySections}</div>
-<script>${js}</script>
+<div id="schedule"></div>
+<script>${clientJs}</script>
 </body>
 </html>
 `;
