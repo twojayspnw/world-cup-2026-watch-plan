@@ -15,7 +15,8 @@
       "utcKickoff": "2026-06-11T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio Banorte, Mexico City"
     },
     {
       "id": "g02",
@@ -30,7 +31,8 @@
       "utcKickoff": "2026-06-12T02:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio Akron, Guadalajara"
     },
     {
       "id": "g03",
@@ -45,7 +47,8 @@
       "utcKickoff": "2026-06-12T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BMO Field, Toronto"
     },
     {
       "id": "g04",
@@ -60,7 +63,8 @@
       "utcKickoff": "2026-06-13T01:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "SoFi Stadium, Inglewood, California"
     },
     {
       "id": "g05",
@@ -75,7 +79,8 @@
       "utcKickoff": "2026-06-13T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Levi's Stadium, Santa Clara, California"
     },
     {
       "id": "g06",
@@ -90,7 +95,8 @@
       "utcKickoff": "2026-06-13T22:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "MetLife Stadium, East Rutherford, New Jersey"
     },
     {
       "id": "g07",
@@ -105,7 +111,8 @@
       "utcKickoff": "2026-06-14T01:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Gillette Stadium, Foxborough, Massachusetts"
     },
     {
       "id": "g08",
@@ -120,7 +127,8 @@
       "utcKickoff": "2026-06-14T04:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BC Place, Vancouver"
     },
     {
       "id": "g09",
@@ -135,7 +143,8 @@
       "utcKickoff": "2026-06-14T17:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "NRG Stadium, Houston, Texas"
     },
     {
       "id": "g10",
@@ -150,7 +159,8 @@
       "utcKickoff": "2026-06-14T20:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
       "id": "g11",
@@ -165,7 +175,8 @@
       "utcKickoff": "2026-06-14T23:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lincoln Financial Field, Philadelphia, Pennsylvania"
     },
     {
       "id": "g12",
@@ -180,7 +191,8 @@
       "utcKickoff": "2026-06-15T02:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio BBVA, Guadalupe"
     },
     {
       "id": "g13",
@@ -195,7 +207,8 @@
       "utcKickoff": "2026-06-15T16:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Mercedes-Benz Stadium, Atlanta, Georgia"
     },
     {
       "id": "g14",
@@ -210,7 +223,8 @@
       "utcKickoff": "2026-06-15T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lumen Field, Seattle, Washington"
     },
     {
       "id": "g15",
@@ -225,7 +239,8 @@
       "utcKickoff": "2026-06-15T22:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Hard Rock Stadium, Miami Gardens, Florida"
     },
     {
       "id": "g16",
@@ -240,7 +255,8 @@
       "utcKickoff": "2026-06-16T01:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "SoFi Stadium, Inglewood, California"
     },
     {
       "id": "g17",
@@ -255,7 +271,8 @@
       "utcKickoff": "2026-06-16T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "MetLife Stadium, East Rutherford, New Jersey"
     },
     {
       "id": "g18",
@@ -270,7 +287,8 @@
       "utcKickoff": "2026-06-16T22:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Gillette Stadium, Foxborough, Massachusetts"
     },
     {
       "id": "g19",
@@ -285,7 +303,8 @@
       "utcKickoff": "2026-06-17T01:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "GEHA Field at Arrowhead Stadium, Kansas City, Missouri"
     },
     {
       "id": "g20",
@@ -300,7 +319,8 @@
       "utcKickoff": "2026-06-17T04:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Levi's Stadium, Santa Clara, California"
     },
     {
       "id": "g21",
@@ -315,7 +335,8 @@
       "utcKickoff": "2026-06-17T17:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "NRG Stadium, Houston, Texas"
     },
     {
       "id": "g22",
@@ -330,7 +351,8 @@
       "utcKickoff": "2026-06-17T20:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
       "id": "g23",
@@ -345,7 +367,8 @@
       "utcKickoff": "2026-06-17T23:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BMO Field, Toronto"
     },
     {
       "id": "g24",
@@ -360,7 +383,8 @@
       "utcKickoff": "2026-06-18T02:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio Banorte, Mexico City"
     },
     {
       "id": "g25",
@@ -375,7 +399,8 @@
       "utcKickoff": "2026-06-18T16:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Mercedes-Benz Stadium, Atlanta, Georgia"
     },
     {
       "id": "g26",
@@ -390,7 +415,8 @@
       "utcKickoff": "2026-06-18T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "SoFi Stadium, Inglewood, California"
     },
     {
       "id": "g27",
@@ -405,7 +431,8 @@
       "utcKickoff": "2026-06-18T22:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BC Place, Vancouver"
     },
     {
       "id": "g28",
@@ -420,7 +447,8 @@
       "utcKickoff": "2026-06-19T01:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio Akron, Guadalajara"
     },
     {
       "id": "g29",
@@ -435,7 +463,8 @@
       "utcKickoff": "2026-06-19T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lumen Field, Seattle, Washington"
     },
     {
       "id": "g30",
@@ -450,7 +479,8 @@
       "utcKickoff": "2026-06-19T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Gillette Stadium, Foxborough, Massachusetts"
     },
     {
       "id": "g31",
@@ -465,7 +495,8 @@
       "utcKickoff": "2026-06-20T01:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lincoln Financial Field, Philadelphia, Pennsylvania"
     },
     {
       "id": "g32",
@@ -480,7 +511,8 @@
       "utcKickoff": "2026-06-20T04:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Levi's Stadium, Santa Clara, California"
     },
     {
       "id": "g33",
@@ -495,7 +527,8 @@
       "utcKickoff": "2026-06-20T17:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "NRG Stadium, Houston, Texas"
     },
     {
       "id": "g34",
@@ -510,7 +543,8 @@
       "utcKickoff": "2026-06-20T20:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BMO Field, Toronto"
     },
     {
       "id": "g35",
@@ -525,7 +559,8 @@
       "utcKickoff": "2026-06-21T00:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "GEHA Field at Arrowhead Stadium, Kansas City, Missouri"
     },
     {
       "id": "g36",
@@ -540,7 +575,8 @@
       "utcKickoff": "2026-06-21T04:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio BBVA, Guadalupe"
     },
     {
       "id": "g37",
@@ -555,7 +591,8 @@
       "utcKickoff": "2026-06-21T16:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Mercedes-Benz Stadium, Atlanta, Georgia"
     },
     {
       "id": "g38",
@@ -570,7 +607,8 @@
       "utcKickoff": "2026-06-21T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "SoFi Stadium, Inglewood, California"
     },
     {
       "id": "g39",
@@ -585,7 +623,8 @@
       "utcKickoff": "2026-06-21T22:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Hard Rock Stadium, Miami Gardens, Florida"
     },
     {
       "id": "g40",
@@ -600,7 +639,8 @@
       "utcKickoff": "2026-06-22T01:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BC Place, Vancouver"
     },
     {
       "id": "g41",
@@ -615,7 +655,8 @@
       "utcKickoff": "2026-06-22T17:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
       "id": "g42",
@@ -630,7 +671,8 @@
       "utcKickoff": "2026-06-22T21:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lincoln Financial Field, Philadelphia, Pennsylvania"
     },
     {
       "id": "g43",
@@ -645,7 +687,8 @@
       "utcKickoff": "2026-06-23T00:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "MetLife Stadium, East Rutherford, New Jersey"
     },
     {
       "id": "g44",
@@ -660,7 +703,8 @@
       "utcKickoff": "2026-06-23T03:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Levi's Stadium, Santa Clara, California"
     },
     {
       "id": "g45",
@@ -675,7 +719,8 @@
       "utcKickoff": "2026-06-23T17:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "NRG Stadium, Houston, Texas"
     },
     {
       "id": "g46",
@@ -690,7 +735,8 @@
       "utcKickoff": "2026-06-23T20:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Gillette Stadium, Foxborough, Massachusetts"
     },
     {
       "id": "g47",
@@ -705,7 +751,8 @@
       "utcKickoff": "2026-06-23T23:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BMO Field, Toronto"
     },
     {
       "id": "g48",
@@ -720,7 +767,8 @@
       "utcKickoff": "2026-06-24T02:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio Akron, Guadalajara"
     },
     {
       "id": "g49",
@@ -735,7 +783,8 @@
       "utcKickoff": "2026-06-24T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BC Place, Vancouver"
     },
     {
       "id": "g50",
@@ -750,7 +799,8 @@
       "utcKickoff": "2026-06-24T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lumen Field, Seattle, Washington"
     },
     {
       "id": "g51",
@@ -765,7 +815,8 @@
       "utcKickoff": "2026-06-24T22:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Hard Rock Stadium, Miami Gardens, Florida"
     },
     {
       "id": "g52",
@@ -780,7 +831,8 @@
       "utcKickoff": "2026-06-24T22:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Mercedes-Benz Stadium, Atlanta, Georgia"
     },
     {
       "id": "g53",
@@ -795,7 +847,8 @@
       "utcKickoff": "2026-06-25T01:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio Banorte, Mexico City"
     },
     {
       "id": "g54",
@@ -810,7 +863,8 @@
       "utcKickoff": "2026-06-25T01:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio BBVA, Guadalupe"
     },
     {
       "id": "g55",
@@ -825,7 +879,8 @@
       "utcKickoff": "2026-06-25T20:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "MetLife Stadium, East Rutherford, New Jersey"
     },
     {
       "id": "g56",
@@ -840,7 +895,8 @@
       "utcKickoff": "2026-06-25T20:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lincoln Financial Field, Philadelphia, Pennsylvania"
     },
     {
       "id": "g57",
@@ -855,7 +911,8 @@
       "utcKickoff": "2026-06-25T23:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "GEHA Field at Arrowhead Stadium, Kansas City, Missouri"
     },
     {
       "id": "g58",
@@ -870,7 +927,8 @@
       "utcKickoff": "2026-06-25T23:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
       "id": "g59",
@@ -885,7 +943,8 @@
       "utcKickoff": "2026-06-26T02:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "SoFi Stadium, Inglewood, California"
     },
     {
       "id": "g60",
@@ -900,7 +959,8 @@
       "utcKickoff": "2026-06-26T02:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Levi's Stadium, Santa Clara, California"
     },
     {
       "id": "g61",
@@ -915,7 +975,8 @@
       "utcKickoff": "2026-06-26T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Gillette Stadium, Foxborough, Massachusetts"
     },
     {
       "id": "g62",
@@ -930,7 +991,8 @@
       "utcKickoff": "2026-06-26T19:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BMO Field, Toronto"
     },
     {
       "id": "g63",
@@ -945,7 +1007,8 @@
       "utcKickoff": "2026-06-27T00:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio Akron, Guadalajara"
     },
     {
       "id": "g64",
@@ -960,7 +1023,8 @@
       "utcKickoff": "2026-06-27T00:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "NRG Stadium, Houston, Texas"
     },
     {
       "id": "g65",
@@ -975,7 +1039,8 @@
       "utcKickoff": "2026-06-27T03:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BC Place, Vancouver"
     },
     {
       "id": "g66",
@@ -990,7 +1055,8 @@
       "utcKickoff": "2026-06-27T03:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lumen Field, Seattle, Washington"
     },
     {
       "id": "g67",
@@ -1005,7 +1071,8 @@
       "utcKickoff": "2026-06-27T21:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "MetLife Stadium, East Rutherford, New Jersey"
     },
     {
       "id": "g68",
@@ -1020,7 +1087,8 @@
       "utcKickoff": "2026-06-27T21:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lincoln Financial Field, Philadelphia, Pennsylvania"
     },
     {
       "id": "g69",
@@ -1035,7 +1103,8 @@
       "utcKickoff": "2026-06-27T23:30:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Hard Rock Stadium, Miami Gardens, Florida"
     },
     {
       "id": "g70",
@@ -1050,7 +1119,8 @@
       "utcKickoff": "2026-06-27T23:30:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Mercedes-Benz Stadium, Atlanta, Georgia"
     },
     {
       "id": "g71",
@@ -1065,7 +1135,8 @@
       "utcKickoff": "2026-06-28T02:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
       "id": "g72",
@@ -1080,7 +1151,8 @@
       "utcKickoff": "2026-06-28T02:00:00Z",
       "autoUpdate": false,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "GEHA Field at Arrowhead Stadium, Kansas City, Missouri"
     },
     {
       "id": "k01",
@@ -1095,7 +1167,8 @@
       "utcKickoff": "2026-06-28T19:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "SoFi Stadium, Inglewood, California"
     },
     {
       "id": "k02",
@@ -1110,7 +1183,8 @@
       "utcKickoff": "2026-06-29T17:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "NRG Stadium, Houston, Texas"
     },
     {
       "id": "k03",
@@ -1125,7 +1199,8 @@
       "utcKickoff": "2026-06-29T20:30:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Gillette Stadium, Foxborough, Massachusetts"
     },
     {
       "id": "k04",
@@ -1140,7 +1215,8 @@
       "utcKickoff": "2026-06-30T01:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio BBVA, Guadalupe"
     },
     {
       "id": "k05",
@@ -1155,7 +1231,8 @@
       "utcKickoff": "2026-06-30T17:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
       "id": "k06",
@@ -1170,7 +1247,8 @@
       "utcKickoff": "2026-06-30T21:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "MetLife Stadium, East Rutherford, New Jersey"
     },
     {
       "id": "k07",
@@ -1185,7 +1263,8 @@
       "utcKickoff": "2026-07-01T01:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio Banorte, Mexico City"
     },
     {
       "id": "k08",
@@ -1200,7 +1279,8 @@
       "utcKickoff": "2026-07-01T16:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Mercedes-Benz Stadium, Atlanta, Georgia"
     },
     {
       "id": "k09",
@@ -1215,7 +1295,8 @@
       "utcKickoff": "2026-07-01T20:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lumen Field, Seattle, Washington"
     },
     {
       "id": "k10",
@@ -1230,7 +1311,8 @@
       "utcKickoff": "2026-07-02T00:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Levi's Stadium, Santa Clara, California"
     },
     {
       "id": "k11",
@@ -1245,7 +1327,8 @@
       "utcKickoff": "2026-07-02T19:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "SoFi Stadium, Inglewood, California"
     },
     {
       "id": "k12",
@@ -1260,7 +1343,8 @@
       "utcKickoff": "2026-07-02T23:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BMO Field, Toronto"
     },
     {
       "id": "k13",
@@ -1275,7 +1359,8 @@
       "utcKickoff": "2026-07-03T03:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BC Place, Vancouver"
     },
     {
       "id": "k14",
@@ -1290,7 +1375,8 @@
       "utcKickoff": "2026-07-03T18:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
       "id": "k15",
@@ -1305,7 +1391,8 @@
       "utcKickoff": "2026-07-03T22:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Hard Rock Stadium, Miami Gardens, Florida"
     },
     {
       "id": "k16",
@@ -1320,7 +1407,8 @@
       "utcKickoff": "2026-07-04T01:30:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "GEHA Field at Arrowhead Stadium, Kansas City, Missouri"
     },
     {
       "id": "k17",
@@ -1335,7 +1423,8 @@
       "utcKickoff": "2026-07-04T17:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "NRG Stadium, Houston, Texas"
     },
     {
       "id": "k18",
@@ -1350,7 +1439,8 @@
       "utcKickoff": "2026-07-04T21:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lincoln Financial Field, Philadelphia, Pennsylvania"
     },
     {
       "id": "k19",
@@ -1365,7 +1455,8 @@
       "utcKickoff": "2026-07-05T20:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "MetLife Stadium, East Rutherford, New Jersey"
     },
     {
       "id": "k20",
@@ -1380,7 +1471,8 @@
       "utcKickoff": "2026-07-06T00:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Estadio Banorte, Mexico City"
     },
     {
       "id": "k21",
@@ -1395,7 +1487,8 @@
       "utcKickoff": "2026-07-06T19:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
       "id": "k22",
@@ -1410,7 +1503,8 @@
       "utcKickoff": "2026-07-07T00:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Lumen Field, Seattle, Washington"
     },
     {
       "id": "k23",
@@ -1425,7 +1519,8 @@
       "utcKickoff": "2026-07-07T16:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Mercedes-Benz Stadium, Atlanta, Georgia"
     },
     {
       "id": "k24",
@@ -1440,7 +1535,8 @@
       "utcKickoff": "2026-07-07T20:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "BC Place, Vancouver"
     },
     {
       "id": "k25",
@@ -1455,7 +1551,8 @@
       "utcKickoff": "2026-07-09T20:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Gillette Stadium, Foxborough, Massachusetts"
     },
     {
       "id": "k26",
@@ -1470,7 +1567,8 @@
       "utcKickoff": "2026-07-10T19:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "SoFi Stadium, Inglewood, California"
     },
     {
       "id": "k27",
@@ -1485,7 +1583,8 @@
       "utcKickoff": "2026-07-11T21:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Hard Rock Stadium, Miami Gardens, Florida"
     },
     {
       "id": "k28",
@@ -1500,7 +1599,8 @@
       "utcKickoff": "2026-07-12T01:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "GEHA Field at Arrowhead Stadium, Kansas City, Missouri"
     },
     {
       "id": "k29",
@@ -1515,7 +1615,8 @@
       "utcKickoff": "2026-07-14T19:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
       "id": "k30",
@@ -1530,14 +1631,15 @@
       "utcKickoff": "2026-07-15T19:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Mercedes-Benz Stadium, Atlanta, Georgia"
     },
     {
       "id": "k32",
       "ptDate": "2026-07-18",
       "ptTime": "2:00 PM",
       "matchup": "Third Place Match — Miami",
-      "detail": "Hard Rock Stadium · Semifinal losers",
+      "detail": "Semifinal losers",
       "phase": "3P",
       "network": "FOX",
       "tubi": false,
@@ -1545,14 +1647,15 @@
       "utcKickoff": "2026-07-18T21:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "Hard Rock Stadium, Miami Gardens, Florida"
     },
     {
       "id": "k31",
       "ptDate": "2026-07-19",
       "ptTime": "12:00 PM",
       "matchup": "World Cup Final",
-      "detail": "MetLife Stadium, East Rutherford",
+      "detail": "World Cup Final",
       "phase": "Final",
       "network": "FOX",
       "tubi": false,
@@ -1560,7 +1663,8 @@
       "utcKickoff": "2026-07-19T19:00:00Z",
       "autoUpdate": true,
       "homeTeam": null,
-      "awayTeam": null
+      "awayTeam": null,
+      "venue": "MetLife Stadium, East Rutherford, New Jersey"
     }
   ]
 }

@@ -2,52 +2,23 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { utcMinuteKey } from "./lib/time.mjs";
 import {
-  displayTeam,
-  isPlaceholder,
-  pairsMatch,
-} from "./lib/teams.mjs";
+  ESPN_URL,
+  buildUtcIndex,
+  findEspnMatch,
+  formatVenue,
+  getCompetitors,
+  getVenue,
+} from "./lib/espn.mjs";
+import { displayTeam, isPlaceholder } from "./lib/teams.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..");
 const dataPath = path.join(root, "data", "matches.json");
 const metaPath = path.join(root, "data", "meta.json");
 
-const ESPN_URL =
-  "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719&limit=200";
-
 function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
-}
-
-function getCompetitors(event) {
-  const comps = event.competitions?.[0]?.competitors ?? [];
-  const home = comps.find((c) => c.homeAway === "home")?.team?.displayName;
-  const away = comps.find((c) => c.homeAway === "away")?.team?.displayName;
-  return { home, away, key: utcMinuteKey(event.date) };
-}
-
-function findMatch(matches, event, byUtc) {
-  const { home, away, key } = getCompetitors(event);
-  const candidates = byUtc.get(key) ?? [];
-
-  if (candidates.length === 1) return candidates[0];
-
-  const byTeams = candidates.find((m) => pairsMatch(home, away, m));
-  if (byTeams) return byTeams;
-
-  if (!isPlaceholder(home) && !isPlaceholder(away)) {
-    const h = displayTeam(home);
-    const a = displayTeam(away);
-    const hit = candidates.find((m) => {
-      const title = m.matchup.toLowerCase();
-      return title.includes(h.toLowerCase()) && title.includes(a.toLowerCase());
-    });
-    if (hit) return hit;
-  }
-
-  return null;
 }
 
 async function main() {
@@ -57,21 +28,23 @@ async function main() {
   const scoreboard = await res.json();
   const events = scoreboard.events ?? [];
 
-  const byUtc = new Map();
-  for (const m of data.matches) {
-    const key = utcMinuteKey(m.utcKickoff);
-    if (!byUtc.has(key)) byUtc.set(key, []);
-    byUtc.get(key).push(m);
-  }
+  const byUtc = buildUtcIndex(data.matches);
 
   let updated = 0;
+  let venuesUpdated = 0;
   const unmatched = [];
 
   for (const event of events) {
-    const match = findMatch(data.matches, event, byUtc);
+    const match = findEspnMatch(data.matches, event, byUtc);
     if (!match) {
       unmatched.push(event.name);
       continue;
+    }
+
+    const venue = formatVenue(getVenue(event));
+    if (venue && match.venue !== venue) {
+      match.venue = venue;
+      venuesUpdated++;
     }
 
     const { home, away } = getCompetitors(event);
@@ -103,11 +76,13 @@ async function main() {
     lastUpdated: new Date().toISOString(),
     espnEvents: events.length,
     knockoutUpdates: updated,
+    venueUpdates: venuesUpdated,
     unmatchedEspn: unmatched.slice(0, 5),
   };
   fs.writeFileSync(metaPath, JSON.stringify(meta, null, 2) + "\n");
 
   console.log(`ESPN events: ${events.length}`);
+  console.log(`Venues updated: ${venuesUpdated}`);
   console.log(`Knockout matchups updated: ${updated}`);
   if (unmatched.length) {
     console.log(`Unmatched ESPN events: ${unmatched.length}`);

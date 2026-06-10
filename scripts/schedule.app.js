@@ -80,6 +80,10 @@
     return tv + " · FOX One" + (m.tubi ? " · Tubi" : "");
   }
 
+  function venueHtml(m) {
+    return m.venue ? '<p class="venue">' + esc(m.venue) + "</p>" : "";
+  }
+
   function slugify(s) {
     return String(s)
       .toLowerCase()
@@ -108,9 +112,10 @@
     var end = formatInTz(endUtc.toISOString(), tz);
     var desc = [
       "Watch: " + streamLabel(m),
+      m.venue || "",
       m.detail,
       "Kickoff: " + dateLabel + " " + timeLabel,
-    ].join("\n");
+    ].filter(Boolean).join("\n");
     var ics = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
@@ -123,10 +128,10 @@
       "DTSTART;TZID=" + tz + ":" + partsToIcs(start.parts),
       "DTEND;TZID=" + tz + ":" + partsToIcs(end.parts),
       "SUMMARY:" + icsEscape(m.matchup),
-      "DESCRIPTION:" + icsEscape(desc),
-      "END:VEVENT",
-      "END:VCALENDAR",
-    ].join("\r\n");
+    ];
+    if (m.venue) ics.push("LOCATION:" + icsEscape(m.venue));
+    ics.push("DESCRIPTION:" + icsEscape(desc), "END:VEVENT", "END:VCALENDAR");
+    ics = ics.join("\r\n");
     return "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
   }
 
@@ -151,6 +156,7 @@
       '<div class="match-top"><time class="kickoff">' + esc(fmt.timeLabel) +
       '</time><span class="net ' + net + '">' + (m.network === "FOX" ? "Fox" : "FS1") + "</span></div>" +
       "<h3 class=\"matchup\">" + esc(m.matchup) + "</h3>" +
+      venueHtml(m) +
       '<p class="detail">' + esc(m.detail) + " · " + esc(m.phase) + "</p>" +
       '<p class="stream">' + esc(streamLabel(m)) + "</p>" +
       calBtn(m, tz, fmt.dateLabel, fmt.timeLabel) +
@@ -167,7 +173,8 @@
       '" data-network="' + m.network + '" data-usa="' + m.usa + '" data-overlap="' + overlap +
       '" data-teams="' + esc(m.teams) + '">' +
       "<td>" + esc(fmt.timeLabel) + "</td><td><strong>" + esc(m.matchup) +
-      '</strong><div class="detail">' + esc(m.detail) + '</div></td><td class="hide-mobile">' +
+      "</strong>" + (m.venue ? '<div class="venue">' + esc(m.venue) + "</div>" : "") +
+      '<div class="detail">' + esc(m.detail) + '</div></td><td class="hide-mobile">' +
       esc(m.phase) + '</td><td><span class="net ' + net + '">' +
       (m.network === "FOX" ? "Fox" : "FS1") +
       '</span><div class="stream">' + esc(streamLabel(m)) + "</div></td><td>" +
@@ -222,11 +229,12 @@
         '<article class="match usa"><div class="match-top"><time class="kickoff">' +
         esc(fmt.dateLabel) + " · " + esc(fmt.timeLabel) +
         '</time></div><h3 class="matchup">' + esc(m.matchup) +
-        '</h3><p class="stream">' + esc(streamLabel(m)) + "</p>" +
+        "</h3>" + venueHtml(m) + '<p class="stream">' + esc(streamLabel(m)) + "</p>" +
         calBtn(m, tz, fmt.dateLabel, fmt.timeLabel) + "</article>";
       rows +=
         '<tr class="usa"><td>' + esc(fmt.dateLabel) + "</td><td>" + esc(fmt.timeLabel) +
-        "</td><td><strong>" + esc(m.matchup) + "</strong></td><td>" +
+        "</td><td><strong>" + esc(m.matchup) + "</strong>" +
+        (m.venue ? '<div class="venue">' + esc(m.venue) + "</div>" : "") + "</td><td>" +
         esc(streamLabel(m)) + "</td><td>" + calBtn(m, tz, fmt.dateLabel, fmt.timeLabel) + "</td></tr>";
     }
     document.getElementById("usa-mobile").innerHTML = cards;

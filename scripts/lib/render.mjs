@@ -254,7 +254,7 @@ const CSS = `  :root {
   .match-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
   .kickoff { font-weight: 700; font-size: 0.95rem; }
   .matchup { font-size: 1rem; margin: 0 0 4px; font-weight: 600; line-height: 1.3; }
-  .detail, .stream { color: var(--muted); font-size: 0.82rem; margin: 0 0 4px; }
+  .venue, .detail, .stream { color: var(--muted); font-size: 0.82rem; margin: 0 0 4px; }
   .cal-btn {
     display: inline-flex; align-items: center; justify-content: center;
     min-height: 44px; margin-top: 10px; padding: 10px 14px; border-radius: 8px;
@@ -287,6 +287,7 @@ function buildClientScript(matches, overlap) {
     utcKickoff: m.utcKickoff,
     matchup: m.matchup,
     detail: m.detail,
+    venue: m.venue || null,
     phase: m.phase,
     network: m.network,
     tubi: m.tubi,
