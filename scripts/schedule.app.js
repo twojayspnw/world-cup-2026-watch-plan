@@ -198,7 +198,7 @@
     var days = document.querySelectorAll("details.day");
     for (var d = 0; d < days.length; d++) {
       var dayVisible = 0;
-      var items = days[d].querySelectorAll("[data-id]");
+      var items = days[d].querySelectorAll(".cards .match[data-id]");
       for (var i = 0; i < items.length; i++) {
         var ok = matchesFilter(items[i], phase, network, show);
         items[i].classList.toggle("hidden", !ok);
