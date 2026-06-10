@@ -1,11 +1,7 @@
 {
-<<<<<<< HEAD
-  "lastUpdated": "2026-06-10T21:41:46.520Z",
-=======
-  "lastUpdated": "2026-06-10T21:59:03.923Z",
->>>>>>> 1e571b2 (Show stadium and city for every match.)
+  "lastUpdated": "2026-06-10T22:07:44.237Z",
   "espnEvents": 104,
   "knockoutUpdates": 0,
-  "venueUpdates": 104,
+  "venueUpdates": 0,
   "unmatchedEspn": []
 }
