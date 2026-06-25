@@ -1158,7 +1158,7 @@
       "id": "k01",
       "ptDate": "2026-06-28",
       "ptTime": "12:00 PM",
-      "matchup": "Round of 32 — Los Angeles",
+      "matchup": "South Africa vs Canada",
       "detail": "Group A 2nd vs Group B 2nd",
       "phase": "Ro32",
       "network": "FOX",
@@ -1166,8 +1166,8 @@
       "usa": false,
       "utcKickoff": "2026-06-28T19:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "South Africa",
+      "awayTeam": "Canada",
       "venue": "SoFi Stadium, Inglewood, California"
     },
     {
