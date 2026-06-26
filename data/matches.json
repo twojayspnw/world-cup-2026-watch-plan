@@ -1222,7 +1222,7 @@
       "id": "k05",
       "ptDate": "2026-06-30",
       "ptTime": "10:00 AM",
-      "matchup": "Round of 32 — Dallas",
+      "matchup": "Ivory Coast vs Norway",
       "detail": "Group E 2nd vs Group I 2nd",
       "phase": "Ro32",
       "network": "FOX",
@@ -1230,8 +1230,8 @@
       "usa": false,
       "utcKickoff": "2026-06-30T17:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Ivory Coast",
+      "awayTeam": "Norway",
       "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
