@@ -1366,7 +1366,7 @@
       "id": "k14",
       "ptDate": "2026-07-03",
       "ptTime": "11:00 AM",
-      "matchup": "Round of 32 — Dallas",
+      "matchup": "Australia vs Egypt",
       "detail": "Group D 2nd vs Group G 2nd",
       "phase": "Ro32",
       "network": "FOX",
@@ -1374,8 +1374,8 @@
       "usa": false,
       "utcKickoff": "2026-07-03T18:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Australia",
+      "awayTeam": "Egypt",
       "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
