@@ -1190,7 +1190,7 @@
       "id": "k03",
       "ptDate": "2026-06-29",
       "ptTime": "1:30 PM",
-      "matchup": "Round of 32 — Boston",
+      "matchup": "Germany vs Paraguay",
       "detail": "Group E winner vs 3rd place",
       "phase": "Ro32",
       "network": "FOX",
@@ -1198,8 +1198,8 @@
       "usa": false,
       "utcKickoff": "2026-06-29T20:30:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Germany",
+      "awayTeam": "Paraguay",
       "venue": "Gillette Stadium, Foxborough, Massachusetts"
     },
     {
@@ -1238,7 +1238,7 @@
       "id": "k06",
       "ptDate": "2026-06-30",
       "ptTime": "2:00 PM",
-      "matchup": "Round of 32 — MetLife",
+      "matchup": "France vs Sweden",
       "detail": "Group I winner vs 3rd place",
       "phase": "Ro32",
       "network": "FOX",
@@ -1246,8 +1246,8 @@
       "usa": false,
       "utcKickoff": "2026-06-30T21:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "France",
+      "awayTeam": "Sweden",
       "venue": "MetLife Stadium, East Rutherford, New Jersey"
     },
     {
@@ -1382,7 +1382,7 @@
       "id": "k15",
       "ptDate": "2026-07-03",
       "ptTime": "3:00 PM",
-      "matchup": "Round of 32 — Miami",
+      "matchup": "Argentina vs Cape Verde",
       "detail": "Group J winner vs Group H 2nd",
       "phase": "Ro32",
       "network": "FOX",
@@ -1390,8 +1390,8 @@
       "usa": false,
       "utcKickoff": "2026-07-03T22:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Argentina",
+      "awayTeam": "Cape Verde",
       "venue": "Hard Rock Stadium, Miami Gardens, Florida"
     },
     {
