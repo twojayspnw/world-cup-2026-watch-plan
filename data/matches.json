@@ -1254,7 +1254,7 @@
       "id": "k07",
       "ptDate": "2026-06-30",
       "ptTime": "6:00 PM",
-      "matchup": "Round of 32 — Mexico City",
+      "matchup": "Mexico vs Ecuador",
       "detail": "Group A winner vs 3rd place",
       "phase": "Ro32",
       "network": "FOX",
@@ -1262,8 +1262,8 @@
       "usa": false,
       "utcKickoff": "2026-07-01T01:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Mexico",
+      "awayTeam": "Ecuador",
       "venue": "Estadio Banorte, Mexico City"
     },
     {
