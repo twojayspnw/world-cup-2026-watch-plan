@@ -1414,7 +1414,7 @@
       "id": "k17",
       "ptDate": "2026-07-04",
       "ptTime": "10:00 AM",
-      "matchup": "Round of 16 — Houston",
+      "matchup": "Canada vs Morocco",
       "detail": "TBD vs TBD",
       "phase": "Ro16",
       "network": "FOX",
@@ -1422,8 +1422,8 @@
       "usa": false,
       "utcKickoff": "2026-07-04T17:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Canada",
+      "awayTeam": "Morocco",
       "venue": "NRG Stadium, Houston, Texas"
     },
     {
