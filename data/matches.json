@@ -1478,7 +1478,7 @@
       "id": "k21",
       "ptDate": "2026-07-06",
       "ptTime": "12:00 PM",
-      "matchup": "Round of 16 — Dallas",
+      "matchup": "Portugal vs Spain",
       "detail": "TBD vs TBD",
       "phase": "Ro16",
       "network": "FOX",
@@ -1486,8 +1486,8 @@
       "usa": false,
       "utcKickoff": "2026-07-06T19:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Portugal",
+      "awayTeam": "Spain",
       "venue": "AT&T Stadium, Arlington, Texas"
     },
     {
