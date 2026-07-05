@@ -1542,7 +1542,7 @@
       "id": "k25",
       "ptDate": "2026-07-09",
       "ptTime": "1:00 PM",
-      "matchup": "Quarterfinal — Boston",
+      "matchup": "France vs Morocco",
       "detail": "TBD vs TBD",
       "phase": "QF",
       "network": "FOX",
@@ -1550,8 +1550,8 @@
       "usa": false,
       "utcKickoff": "2026-07-09T20:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "France",
+      "awayTeam": "Morocco",
       "venue": "Gillette Stadium, Foxborough, Massachusetts"
     },
     {
