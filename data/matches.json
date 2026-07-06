@@ -1574,7 +1574,7 @@
       "id": "k27",
       "ptDate": "2026-07-11",
       "ptTime": "2:00 PM",
-      "matchup": "Quarterfinal — Miami",
+      "matchup": "Norway vs England",
       "detail": "TBD vs TBD",
       "phase": "QF",
       "network": "FOX",
@@ -1582,8 +1582,8 @@
       "usa": false,
       "utcKickoff": "2026-07-11T21:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Norway",
+      "awayTeam": "England",
       "venue": "Hard Rock Stadium, Miami Gardens, Florida"
     },
     {
