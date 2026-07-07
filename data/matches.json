@@ -1558,7 +1558,7 @@
       "id": "k26",
       "ptDate": "2026-07-10",
       "ptTime": "12:00 PM",
-      "matchup": "Quarterfinal — Los Angeles",
+      "matchup": "Spain vs Belgium",
       "detail": "TBD vs TBD",
       "phase": "QF",
       "network": "FOX",
@@ -1566,8 +1566,8 @@
       "usa": false,
       "utcKickoff": "2026-07-10T19:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Spain",
+      "awayTeam": "Belgium",
       "venue": "SoFi Stadium, Inglewood, California"
     },
     {
