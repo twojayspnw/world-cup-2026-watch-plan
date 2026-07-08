@@ -1590,7 +1590,7 @@
       "id": "k28",
       "ptDate": "2026-07-11",
       "ptTime": "6:00 PM",
-      "matchup": "Quarterfinal — Kansas City",
+      "matchup": "Argentina vs Switzerland",
       "detail": "TBD vs TBD",
       "phase": "QF",
       "network": "FOX",
@@ -1598,8 +1598,8 @@
       "usa": false,
       "utcKickoff": "2026-07-12T01:00:00Z",
       "autoUpdate": true,
-      "homeTeam": null,
-      "awayTeam": null,
+      "homeTeam": "Argentina",
+      "awayTeam": "Switzerland",
       "venue": "GEHA Field at Arrowhead Stadium, Kansas City, Missouri"
     },
     {
