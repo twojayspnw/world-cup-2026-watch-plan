@@ -310,15 +310,8 @@ export function buildHtml(matches, meta = {}) {
     }),
   ).size;
 
-  const updatedLine = meta.lastUpdated
-    ? '<p class="updated">Knockout teams last synced ' +
-      new Date(meta.lastUpdated).toLocaleString("en-US", {
-        timeZone: "America/Los_Angeles",
-        dateStyle: "medium",
-        timeStyle: "short",
-      }) +
-      " PT · auto-updates from ESPN</p>"
-    : "";
+  const updatedLine =
+    '<p class="updated">Final snapshot · Jul 9, 2026 · no longer auto-updating</p>';
 
   const allTeams = collectAllTeams(matches);
   const teamOptions = allTeams
