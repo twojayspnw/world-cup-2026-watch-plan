@@ -1,0 +1,85 @@
+name: Retire site after final
+
+on:
+  schedule:
+    # Jul 20, 2026 14:00 UTC (7:00 AM PT) — after the Jul 19 final (12:00 PM PT kickoff)
+    - cron: "0 14 20 7 *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  administration: write
+
+jobs:
+  retire:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check tournament year
+        id: year
+        run: |
+          if [ "$(date -u +%Y)" = "2026" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Takedown only runs in 2026; skipping."
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.year.outputs.run == 'true'
+
+      - name: Replace planner with retirement notice
+        if: steps.year.outputs.run == 'true'
+        run: |
+          cat > index.html <<'HTML'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>World Cup Watch Planner — Retired</title>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 32rem; margin: 4rem auto; padding: 0 1rem; line-height: 1.5; color: #222; }
+              h1 { font-size: 1.25rem; }
+              p { color: #555; }
+            </style>
+          </head>
+          <body>
+            <h1>2026 World Cup Watch Planner</h1>
+            <p>This site has been retired now that the tournament is over. Thanks for following along.</p>
+          </body>
+          </html>
+          HTML
+
+          cat > README.md <<'MD'
+          # 2026 World Cup Watch Planner
+
+          **Retired** after the World Cup final. This repository is archived and GitHub Pages has been disabled.
+          MD
+
+          rm -f .github/workflows/retire-site.yml
+
+      - name: Commit and push retirement notice
+        if: steps.year.outputs.run == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html README.md
+          git add -u .github/workflows/ || true
+          if git diff --staged --quiet; then
+            echo "Nothing to commit"
+          else
+            git commit -m "chore: retire watch planner after World Cup final"
+            git push
+          fi
+
+      - name: Disable GitHub Pages
+        if: steps.year.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api --method DELETE "repos/${{ github.repository }}/pages" || true
+
+      - name: Archive repository
+        if: steps.year.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh repo archive "${{ github.repository }}" --yes

@@ -4,7 +4,9 @@ Pacific Time schedule for all FIFA World Cup 2026 matches on Fox / FS1, with cal
 
 **Live site:** https://twojayspnw.github.io/world-cup-2026-watch-plan/
 
-**Status:** Archived after the tournament. The site is a static snapshot; knockout teams and venues are no longer synced from ESPN.
+**Status:** Archived after the tournament. The site is a static snapshot until scheduled takedown.
+
+**Scheduled takedown:** GitHub Pages will be disabled on **July 20, 2026 at 7:00 AM PT** (morning after the final on July 19). The repo will be archived again automatically.
 
 ## Local rebuild (optional)
 

@@ -311,7 +311,7 @@ export function buildHtml(matches, meta = {}) {
   ).size;
 
   const updatedLine =
-    '<p class="updated">Final snapshot · Jul 9, 2026 · no longer auto-updating</p>';
+    '<p class="updated">Final snapshot · site retires Jul 20, 2026 after the final</p>';
 
   const allTeams = collectAllTeams(matches);
   const teamOptions = allTeams
